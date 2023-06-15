@@ -1,65 +1,69 @@
 const express = require("express") // iniciando o express
 const router = express.Router() //iniciando a rotar
-const { v4: uuidv4 } = require('uuid');
+const databaseConnection = require('./db') //ligando ao arquivo banco de dados
+databaseConnection() //chama a funçao que conecta o banco
 
+const Woman = require('./womanModel')
 const app = express() //iniciando o app
 app.use(express.json())
 const port = 3333 //criando a porta
 
-//criando lista de mulheres
-const women = [
-    {
-    id: '1',
-    name: 'Graziella Guedes',
-    photo: 'https://media.licdn.com/dms/image/C4D03AQF2yNZ3qZ3ZjQ/profile-displayphoto-shrink_200_200/0/1629249878792?e=1691625600&v=beta&t=m-SD6JpNBj9B2-vRPdGj7V-4JO_QODthEtalRzMZn7o',
-    miniBio: 'Desenvolvedora em formação'
-    },
-    {
-    id: '2',
-    name: 'Isabelle Silva',
-    photo: 'https://media.licdn.com/dms/image/C4E03AQHhd5-qPwa8Qw/profile-displayphoto-shrink_800_800/0/1653684599645?e=1691625600&v=beta&t=2wF54FcErR2PxeSEtbup-QmatKMIT3QEJwYmPuEbcfs',
-    miniBio: 'Advogada com mais de 20 anos de experiência e com formação em metodologias ágeis'
-    }
-]
 
 //get
-function showWomen (request, response) {
-    response.json(women)
-}
+async function showWomen (request, response) {
+    try {
+        const womenInDatabase = await Woman.find()
+
+        response.json(womenInDatabase)
+    }catch (erro){
+    console.log(erro)
+}}
 
 //post
-function createWoman(request, response) {
-    const newWoman = {
-        id: uuidv4(),
+async function createWoman(request, response) {
+    const newWoman = new Woman({
         name: request.body.name,
         photo: request.body.photo,
+        citacao: request.body.citacao,
         miniBio: request.body.miniBio,
+    })
+
+    try{
+        const createdWoman = await newWoman.save()
+        response.status(201).json(createdWoman)
+    } catch (erro) {
+        console.log(erro)
     }
 
-    women.push(newWoman)
+    
 
-    response.json(women)
 }
 
 //patch
-function editWoman(request, response) {
-    function findWoman(woman) {
-        if (woman.id === request.params.id) {
-            return woman
-        }
-    }
-    const womanFound = women.find(findWoman)
+async function editWoman(request, response) {
+    try {
+        const womanFound = await Woman.findById(request.params.id)
 
-    if (request.body.name){
+        if (request.body.name){
         womanFound.nome = request.body.name
-    }
-    if (request.body.photo){
+        }
+         if (request.body.photo){
         womanFound.photo = request.body.photo
-    }
-    if (request.body.miniBio){
+        }
+        if (request.body.citacao){
+            womanFound.citacao = request.body.citacao
+            }
+        if (request.body.miniBio){
         womanFound.miniBio = request.body.miniBio
+
+        const editedWoman = await womanFound.save()
+        response.json(editedWoman)
+
+        }
+        } catch (erro) {
+        console.log(erro)
     }
-    response.json(women)
+   
 }
 //delete
 function deleteWoman(request, response){
