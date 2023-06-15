@@ -66,15 +66,13 @@ async function editWoman(request, response) {
    
 }
 //delete
-function deleteWoman(request, response){
-    function exceptOneWoman(woman) {
-        if (woman.id !== request.params.id) {
-            return woman
-        }
+async function deleteWoman(request, response){
+    try {
+        await Woman.findByIdAndDelete(request.params.id)
+        response.json({message: 'woman successfully deleted.'})
+    } catch (erro) {
+        console.log(erro)
     }
-    const allWomen = women.filter(exceptOneWoman)
-
-    response.json(allWomen)
 }
 
 //porta
