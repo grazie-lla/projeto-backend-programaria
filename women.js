@@ -1,11 +1,13 @@
 const express = require("express") // iniciando o express
 const router = express.Router() //iniciando a rotar
+const cors = require('cors') //trazendo pacote cors para consumir a api no front
 const databaseConnection = require('./db') //ligando ao arquivo banco de dados
 databaseConnection() //chama a funçao que conecta o banco
 
 const Woman = require('./womanModel')
 const app = express() //iniciando o app
 app.use(express.json())
+app.use(cors())
 const port = 3333 //criando a porta
 
 
