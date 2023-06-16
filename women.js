@@ -44,26 +44,28 @@ async function editWoman(request, response) {
     try {
         const womanFound = await Woman.findById(request.params.id)
 
-        if (request.body.name){
-        womanFound.nome = request.body.name
+        if (request.body.name) {
+            womanFound.name = request.body.name
         }
-         if (request.body.photo){
-        womanFound.photo = request.body.photo
+    
+        if (request.body.miniBio) {
+            womanFound.miniBio = request.body.miniBio
         }
-        if (request.body.citacao){
+    
+        if (request.body.photo) {
+            womanFound.photo = request.body.photo
+        }
+
+        if (request.body.citacao) {
             womanFound.citacao = request.body.citacao
-            }
-        if (request.body.miniBio){
-        womanFound.miniBio = request.body.miniBio
+        }
 
         const editedWoman = await womanFound.save()
-        response.json(editedWoman)
 
-        }
-        } catch (erro) {
+        response.json(editedWoman)
+    } catch (erro) {
         console.log(erro)
     }
-   
 }
 //delete
 async function deleteWoman(request, response){
