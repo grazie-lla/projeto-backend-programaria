@@ -46,8 +46,8 @@ async function editWoman(request, response) {
     try {
         const womanFound = await Woman.findById(request.params.id)
 
-        if (request.body.name) {
-            womanFound.name = request.body.name
+        if (request.body.nome) {
+            womanFound.nome = request.body.nome
         }
     
         if (request.body.miniBio) {
