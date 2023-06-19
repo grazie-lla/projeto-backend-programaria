@@ -24,7 +24,7 @@ async function showWomen (request, response) {
 //post
 async function createWoman(request, response) {
     const newWoman = new Woman({
-        name: request.body.name,
+        nome: request.body.nome,
         photo: request.body.photo,
         citacao: request.body.citacao,
         miniBio: request.body.miniBio,
