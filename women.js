@@ -25,9 +25,9 @@ async function showWomen (request, response) {
 async function createWoman(request, response) {
     const newWoman = new Woman({
         nome: request.body.nome,
-        photo: request.body.photo,
+        imagem: request.body.imagem,
         citacao: request.body.citacao,
-        miniBio: request.body.miniBio,
+        minibio: request.body.minibio,
     })
 
     try{
@@ -50,12 +50,12 @@ async function editWoman(request, response) {
             womanFound.nome = request.body.nome
         }
     
-        if (request.body.miniBio) {
-            womanFound.miniBio = request.body.miniBio
+        if (request.body.minibio) {
+            womanFound.minibio = request.body.minibio
         }
     
-        if (request.body.photo) {
-            womanFound.photo = request.body.photo
+        if (request.body.imagem) {
+            womanFound.imagem = request.body.imagem
         }
 
         if (request.body.citacao) {

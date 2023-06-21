@@ -5,7 +5,7 @@ const womanSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    photo: {
+    imagem: {
         type: String,
         required: true
     },
@@ -13,7 +13,7 @@ const womanSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    miniBio: {
+    minibio: {
         type: String,
         required: true
     }   
